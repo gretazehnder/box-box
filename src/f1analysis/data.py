@@ -21,7 +21,7 @@ def get_schedule(year: int) -> pd.DataFrame:
 def load_session(year: int, gp: str | int, kind: str = "R",
                  telemetry: bool = False) -> fastf1.core.Session:
     """Load a session: 'R' race, 'Q' qualifying, 'S' sprint, ...
-    (only loaded when explicitly requested)."""
+    Telemetry is only loaded when explicitly requested."""
     enable_cache()
     session = fastf1.get_session(year, gp, kind)
     session.load(laps=True, telemetry=telemetry, weather=True, messages=True)
