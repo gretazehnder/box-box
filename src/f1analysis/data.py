@@ -26,3 +26,14 @@ def load_session(year: int, gp: str | int, kind: str = "R",
     session = fastf1.get_session(year, gp, kind)
     session.load(laps=True, telemetry=telemetry, weather=True, messages=True)
     return session
+
+
+FIRST_YEAR = 2018  # first season with lap timing and telemetry
+
+
+def available_events(year: int) -> pd.DataFrame:
+    """Events of a season that can be analysed: supported by the F1 API
+    and already held (testing is excluded by get_schedule)."""
+    schedule = get_schedule(year)
+    today = pd.Timestamp.today().normalize()
+    return schedule[schedule["F1ApiSupport"] & (schedule["EventDate"] < today)]
