@@ -3,6 +3,8 @@ from pathlib import Path
 import fastf1
 import pandas as pd
 
+from fastf1.exceptions import DataNotLoadedError
+
 # cache/ folder at the repo root
 CACHE_DIR = Path(__file__).resolve().parents[2] / "cache"
 
@@ -21,12 +23,21 @@ def get_schedule(year: int) -> pd.DataFrame:
 def load_session(year: int, gp: str | int, kind: str = "R",
                  telemetry: bool = False) -> fastf1.core.Session:
     """Load a session: 'R' race, 'Q' qualifying, 'S' sprint, ...
-    Telemetry is only loaded when explicitly requested."""
+
+    Telemetry is heavy, so it is only loaded when explicitly requested.
+    Raises RuntimeError if lap data could not be downloaded.
+    """
     enable_cache()
     session = fastf1.get_session(year, gp, kind)
     session.load(laps=True, telemetry=telemetry, weather=True, messages=True)
+    try:
+        session.laps
+    except DataNotLoadedError as error:
+        raise RuntimeError(
+            f"Lap data could not be loaded for {session.event['EventName']} {year}. "
+            "The download may have failed: please try again."
+        ) from error
     return session
-
 
 FIRST_YEAR = 2018  # first season with lap timing and telemetry
 
