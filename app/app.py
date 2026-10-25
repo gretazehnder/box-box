@@ -11,7 +11,7 @@ st.set_page_config(page_title="Box Box", page_icon="🏁", layout="wide")
 def get_race(year: int, round_number: int):
     return load_session(year, round_number, telemetry=True)
 
-# --- Race selection (sidebar, shared by all pages) ---
+# Race selection (sidebar, shared by all pages)
 st.sidebar.title("🏁 Box Box")
 
 years = list(range(datetime.date.today().year, FIRST_YEAR - 1, -1))
@@ -35,9 +35,10 @@ except RuntimeError as error:
     st.error(str(error))
     st.stop()
 
-# --- Navigation (top bar) ---
+# Navigation (top bar) 
 pages = [
     st.Page("pages/overview.py", title="Overview", icon=":material/flag:"),
     st.Page("pages/race_pace.py", title="Race pace", icon=":material/speed:"),
+    st.Page("pages/tyre_strategy.py", title="Tyre strategy", icon=":material/tire_repair:"),
 ]
 st.navigation(pages, position="top").run()
