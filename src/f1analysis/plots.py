@@ -103,3 +103,19 @@ def lap_times_chart(laps: pd.DataFrame, colors: dict[str, str]):
         fig.update_traces(line_dash=dash, selector={"name": driver})
     fig.update_layout(template=TEMPLATE, legend_title=None)
     return fig
+
+# Tyre strategy
+
+def strategy_chart(stints: pd.DataFrame, colors: dict[str, str], driver_order: list[str]):
+    """One horizontal bar per driver, split into stints coloured by compound."""
+    data = stints.assign(StartFrom=stints["StartLap"] - 1, Driver=stints["Driver"].astype(str))
+    fig = px.bar(
+        data, x="Laps", y="Driver", base="StartFrom", color="Compound", orientation="h",
+        color_discrete_map=colors,
+        category_orders={"Driver": driver_order},
+        hover_data={"Stint": True, "StartLap": True, "EndLap": True, "Laps": True, "StartFrom": False},
+        labels={"Laps": "Lap", "Driver": ""},
+    )
+    fig.update_layout(template=TEMPLATE, barmode="overlay", height=600, legend_title=None)
+    fig.update_traces(marker_line_color="#111111", marker_line_width=2)
+    return fig
