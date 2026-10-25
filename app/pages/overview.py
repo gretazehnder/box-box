@@ -23,7 +23,6 @@ def card(column, label, value, detail, color=None):
         st.caption(detail)
 
 
-# --- Key facts ---
 winner = results.iloc[0]
 fastest = fastest_lap(race.laps)
 sectors = best_sectors(race.laps)
@@ -44,7 +43,7 @@ card(columns[5], "Biggest gainer", gainer["Abbreviation"],
 
 map_column, table_column = st.columns(2, gap="large")
 
-# --- Track map ---
+# Track map 
 with map_column:
     layout = lap_layout(fastest)
     corners = race.get_circuit_info().corners
@@ -57,7 +56,7 @@ with map_column:
         fig = track_speed_map(layout, corners)
     st.plotly_chart(fig, use_container_width=True)
 
-# --- Classification ---
+# Classification 
 with table_column:
     table = pd.DataFrame({
         "Pos": results["ClassifiedPosition"],
