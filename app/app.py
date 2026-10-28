@@ -40,5 +40,6 @@ pages = [
     st.Page("pages/overview.py", title="Overview", icon=":material/flag:"),
     st.Page("pages/race_pace.py", title="Race pace", icon=":material/speed:"),
     st.Page("pages/tyre_strategy.py", title="Tyre strategy", icon=":material/tire_repair:"),
+    st.Page("pages/pit_stops.py", title="Pit stops", icon=":material/timer:"),
 ]
 st.navigation(pages, position="top").run()
