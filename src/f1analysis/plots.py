@@ -119,3 +119,22 @@ def strategy_chart(stints: pd.DataFrame, colors: dict[str, str], driver_order: l
     fig.update_layout(template=TEMPLATE, barmode="overlay", height=600, legend_title=None)
     fig.update_traces(marker_line_color="#111111", marker_line_width=2)
     return fig
+
+# Pit stops
+
+def gap_chart(gap: pd.DataFrame, stops: pd.DataFrame, driver_a: str, driver_b: str,
+              colors: dict[str, str]):
+    """Gap between two drivers lap by lap, with their pit stops shaded."""
+    fig = px.line(
+        gap, x="LapNumber", y="Gap", markers=True,
+        labels={"LapNumber": "Lap", "Gap": f"{driver_b}'s gap to {driver_a} (s)"},
+    )
+    fig.update_traces(line_color="#f0f0ec")
+    fig.add_hline(y=0, line_color="gray")
+    for stop in stops[stops["Driver"].isin([driver_a, driver_b])].itertuples():
+        fig.add_vrect(x0=stop.LapNumber - 0.5, x1=stop.LapNumber + 1.5,
+                      fillcolor=colors.get(stop.Driver, FALLBACK_COLOR), opacity=0.15, line_width=0)
+        fig.add_annotation(x=stop.LapNumber + 0.5, y=1.02 if stop.Driver == driver_a else 1.08,
+                           yref="paper", text=f"{stop.Driver} pit", showarrow=False)
+    fig.update_layout(template=TEMPLATE, margin_t=110)
+    return fig
