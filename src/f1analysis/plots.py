@@ -138,3 +138,32 @@ def gap_chart(gap: pd.DataFrame, stops: pd.DataFrame, driver_a: str, driver_b: s
                            yref="paper", text=f"{stop.Driver} pit", showarrow=False)
     fig.update_layout(template=TEMPLATE, margin_t=110)
     return fig
+
+
+# Positions
+
+def positions_chart(positions: pd.DataFrame, colors: dict[str, str], highlight: list[str],
+                    driver_order: list[str], teams: dict[str, str]):
+    """Positions lap by lap. Highlighted drivers in their team colour (teammates dashed),
+    the rest of the field in thin grey lines."""
+    line_colors = {d: colors.get(d, FALLBACK_COLOR) if d in highlight else "#555555" for d in driver_order}
+    fig = px.line(
+        positions, x="LapNumber", y="Position", color="Driver",
+        color_discrete_map=line_colors,
+        category_orders={"Driver": driver_order},
+        labels={"LapNumber": "Lap"},
+        height=600,
+    )
+    fig.update_yaxes(range=[len(driver_order) + 0.5, 0.5], dtick=1)
+    fig.update_traces(line_width=1)
+
+    teams_seen = set()
+    for driver in driver_order:
+        if driver not in highlight:
+            continue
+        dash = "dash" if teams.get(driver) in teams_seen else "solid"
+        teams_seen.add(teams.get(driver))
+        fig.update_traces(line_width=3, line_dash=dash, selector={"name": driver})
+
+    fig.update_layout(template=TEMPLATE, legend_title=None)
+    return fig
