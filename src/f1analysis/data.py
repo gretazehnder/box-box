@@ -11,7 +11,7 @@ CACHE_DIR = Path(__file__).resolve().parents[2] / "cache"
 
 def enable_cache() -> None:
     CACHE_DIR.mkdir(exist_ok=True)
-    fastf1.Cache.enable_cache(str(CACHE_DIR))
+    fastf1.Cache.configure(cache_dir=str(CACHE_DIR))
 
 
 def get_schedule(year: int) -> pd.DataFrame:
