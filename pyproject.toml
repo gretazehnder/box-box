@@ -7,7 +7,7 @@ name = "f1analysis"
 version = "0.1.0"
 requires-python = ">=3.10"
 dependencies = [
-    "fastf1>=3.4",
+    "fastf1>=3.9",
     "pandas",
     "plotly",
     "streamlit",
