@@ -54,7 +54,7 @@ with map_column:
     else:
         st.caption(f"Speed along the fastest lap of the race ({fastest['Driver']}, lap {int(fastest['LapNumber'])}).")
         fig = track_speed_map(layout, corners)
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
 # Classification 
 with table_column:
@@ -77,4 +77,4 @@ with table_column:
         .format({"+/−": "{:+d}", "Points": "{:g}"})
     )
     st.caption("Final classification")
-    st.dataframe(styled, hide_index=True, use_container_width=True, height=(len(table) + 1) * 35 + 3)
+    st.dataframe(styled, hide_index=True, width="stretch", height=(len(table) + 1) * 35 + 3)
