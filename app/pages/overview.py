@@ -4,6 +4,7 @@ import streamlit as st
 from f1analysis.overview import best_sectors, biggest_gainer, fastest_lap, format_laptime
 from f1analysis.plots import driver_colors, team_colors, track_sector_map, track_speed_map
 from f1analysis.track import lap_layout
+from f1analysis.events import neutralisations
 
 race = st.session_state["race"]
 results = race.results
@@ -24,6 +25,16 @@ def card(column, label, value, detail, color=None):
 
 
 winner = results.iloc[0]
+
+periods = neutralisations(race.laps, winner["Abbreviation"])
+if periods.empty:
+    st.caption("No safety car, virtual safety car or red flag.")
+else:
+    st.caption(" · ".join(
+        f"{p.Type}: lap {p.StartLap}" if p.StartLap == p.EndLap else f"{p.Type}: laps {p.StartLap}–{p.EndLap}"
+        for p in periods.itertuples()
+    ))
+
 fastest = fastest_lap(race.laps)
 sectors = best_sectors(race.laps)
 gainer = biggest_gainer(results)
