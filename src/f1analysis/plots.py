@@ -3,6 +3,7 @@
 import fastf1.plotting
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
 
 TEMPLATE = "plotly_dark"
 FALLBACK_COLOR = "#888888"
@@ -124,7 +125,7 @@ def strategy_chart(stints: pd.DataFrame, colors: dict[str, str], driver_order: l
 
 def gap_chart(gap: pd.DataFrame, stops: pd.DataFrame, driver_a: str, driver_b: str,
               colors: dict[str, str]):
-    """Gap between two drivers lap by lap, with their pit stops shaded."""
+    """Gap between two drivers lap by lap, with their pit stops marked as dashed lines."""
     fig = px.line(
         gap, x="LapNumber", y="Gap", markers=True,
         labels={"LapNumber": "Lap", "Gap": f"{driver_b}'s gap to {driver_a} (s)"},
@@ -132,11 +133,13 @@ def gap_chart(gap: pd.DataFrame, stops: pd.DataFrame, driver_a: str, driver_b: s
     fig.update_traces(line_color="#f0f0ec")
     fig.add_hline(y=0, line_color="gray")
     for stop in stops[stops["Driver"].isin([driver_a, driver_b])].itertuples():
-        fig.add_vrect(x0=stop.LapNumber - 0.5, x1=stop.LapNumber + 1.5,
-                      fillcolor=colors.get(stop.Driver, FALLBACK_COLOR), opacity=0.15, line_width=0)
-        fig.add_annotation(x=stop.LapNumber + 0.5, y=1.02 if stop.Driver == driver_a else 1.08,
-                           yref="paper", text=f"{stop.Driver} pit", showarrow=False)
-    fig.update_layout(template=TEMPLATE, margin_t=110)
+        x = stop.LapNumber + 0.5
+        fig.add_vline(x=x, line_dash="dash", line_width=2,
+                      line_color=colors.get(stop.Driver, FALLBACK_COLOR))
+        fig.add_annotation(x=x, y=0.02 if stop.Driver == driver_a else 0.09, yref="paper",
+                           text=stop.Driver, showarrow=False,
+                           xanchor="left", xshift=3, font_size=11)
+    fig.update_layout(template=TEMPLATE)
     return fig
 
 
@@ -166,4 +169,33 @@ def positions_chart(positions: pd.DataFrame, colors: dict[str, str], highlight: 
         fig.update_traces(line_width=3, line_dash=dash, selector={"name": driver})
 
     fig.update_layout(template=TEMPLATE, legend_title=None)
+    return fig
+
+#  Neutralisations 
+
+NEUTRALISATION_STYLE = {
+    # type: (label, colour, opacity)
+    "Safety Car": ("SC", "#ffd12e", 0.25),
+    "Virtual Safety Car": ("VSC", "#c8c8c8", 0.20),
+    "Red Flag": ("RED", "#ff1a1a", 0.35),
+}
+
+
+def add_neutralisations(fig, periods: pd.DataFrame):
+    """Mark safety car, VSC and red flag periods on a chart with laps on the x axis:
+    a coloured strip above the plot, a light shading inside it, and a legend entry."""
+    for period in periods.itertuples():
+        label, color, _ = NEUTRALISATION_STYLE[period.Type]
+        x0, x1 = period.StartLap - 0.5, period.EndLap + 0.5
+        fig.add_shape(type="rect", xref="x", yref="paper", x0=x0, x1=x1, y0=1.0, y1=1.04,
+                      fillcolor=color, line_width=0)
+        fig.add_vrect(x0=x0, x1=x1, fillcolor=color, opacity=0.08, line_width=0)
+
+    for neutralisation_type in periods["Type"].unique():
+        _, color, _ = NEUTRALISATION_STYLE[neutralisation_type]
+        fig.add_trace(go.Scatter(
+            x=[None], y=[None], mode="markers", name=neutralisation_type,
+            marker=dict(symbol="square", size=12, color=color),
+        ))
+    fig.update_layout(margin_t=max(fig.layout.margin.t or 0, 110))
     return fig

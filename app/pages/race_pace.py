@@ -1,12 +1,15 @@
 import streamlit as st
 
 from f1analysis.cleaning import clean_laps
+from f1analysis.events import neutralisations                                  
 from f1analysis.pace import MIN_CLEAN_LAPS, relative_pace
-from f1analysis.plots import driver_colors, lap_times_chart, pace_chart, team_colors
+from f1analysis.plots import (add_neutralisations, driver_colors,              
+                              lap_times_chart, pace_chart, team_colors)
 
 race = st.session_state["race"]
 results = race.results
 clean = clean_laps(race.laps)
+periods = neutralisations(race.laps, results["Abbreviation"].iloc[0])          
 
 st.title("Race pace")
 
@@ -21,14 +24,16 @@ st.caption(
 pace = relative_pace(clean)
 st.plotly_chart(pace_chart(pace, team_colors(results), MIN_CLEAN_LAPS), width="stretch")
 
-# Lap times
+# Lap times 
 st.subheader("Lap times")
-st.caption("Clean laps only: gaps in the lines correspond to pit stops and excluded laps.")
+st.caption("Clean laps only: gaps in the lines correspond to pit stops and excluded laps. "
+           "Shaded areas mark safety car, virtual safety car and red flag periods.")   
 
 finishing_order = results["Abbreviation"].tolist()
 selected = st.multiselect("Drivers", finishing_order, default=finishing_order[:2])
 
 if selected:
-    st.plotly_chart(lap_times_chart(clean.pick_drivers(selected), driver_colors(results)), width="stretch")
+    fig = lap_times_chart(clean.pick_drivers(selected), driver_colors(results))
+    st.plotly_chart(add_neutralisations(fig, periods), width="stretch")      
 else:
     st.info("Select at least one driver.")
