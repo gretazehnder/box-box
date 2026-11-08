@@ -1,5 +1,3 @@
-"""Race neutralisations (safety car, virtual safety car, red flag) from track status."""
-
 import pandas as pd
 
 # Track status codes: 4 = Safety Car, 5 = Red Flag, 6 = VSC deployed, 7 = VSC ending
@@ -24,17 +22,14 @@ def _consecutive(lap_numbers: list[int]) -> list[list[int]]:
 def neutralisations(laps: pd.DataFrame, reference_driver: str) -> pd.DataFrame:
     """Periods of safety car, virtual safety car and red flag, as lap ranges.
 
-    Lap numbers refer to `reference_driver` (usually the winner), since at the same
-    moment drivers can be on different laps. A lap's TrackStatus lists every status
-    seen during that lap (e.g. "14" = green, then safety car).
+    Track status is read from the laps of a reference driver (the winner,
+    who completes every lap of the race).
     """
     reference = laps[(laps["Driver"] == reference_driver) & laps["TrackStatus"].notna()]
     periods = []
     for label, codes in NEUTRALISATIONS.items():
-        affected = sorted(
-            int(lap["LapNumber"]) for _, lap in reference.iterrows()
-            if set(str(lap["TrackStatus"])) & codes
-        )
+        has_code = reference["TrackStatus"].apply(lambda status: bool(set(status) & codes))
+        affected = reference.loc[has_code, "LapNumber"].astype(int).tolist()
         for group in _consecutive(affected):
             periods.append({"Type": label, "StartLap": group[0], "EndLap": group[-1]})
     return pd.DataFrame(periods, columns=["Type", "StartLap", "EndLap"]).sort_values("StartLap")
