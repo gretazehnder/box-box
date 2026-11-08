@@ -42,7 +42,7 @@ def biggest_gainer(results: pd.DataFrame) -> pd.Series:
     Drivers starting from the pit lane have grid position 0 and are excluded.
     """
     classified = results[(results["GridPosition"] > 0) & results["Position"].notna()]
-    gained = classified["GridPosition"] - classified["Position"]
-    gainer = classified.loc[gained.idxmax()].copy()
-    gainer["PositionsGained"] = int(gained.max())
-    return gainer
+    classified = classified.assign(
+        PositionsGained=(classified["GridPosition"] - classified["Position"]).astype(int)
+    )
+    return classified.loc[classified["PositionsGained"].idxmax()]
