@@ -7,11 +7,14 @@ import pandas as pd
 def lap_layout(lap) -> pd.DataFrame:
     """X/Y position, distance and speed along a lap, with the sector of each point.
 
-    Sector boundaries are found from the time the driver crossed them
-    (Sector1SessionTime, Sector2SessionTime).
+    Each point is assigned to a sector by comparing its session time with the
+    time the driver crossed the end of sectors 1 and 2.
     """
     tel = lap.get_telemetry()
-    s1_end = tel.loc[tel["SessionTime"] >= lap["Sector1SessionTime"], "Distance"].iloc[0]
-    s2_end = tel.loc[tel["SessionTime"] >= lap["Sector2SessionTime"], "Distance"].iloc[0]
-    tel["Sector"] = np.select([tel["Distance"] < s1_end, tel["Distance"] < s2_end], [1, 2], default=3)
+    tel["Sector"] = np.select(
+        [tel["SessionTime"] < lap["Sector1SessionTime"],
+         tel["SessionTime"] < lap["Sector2SessionTime"]],
+        [1, 2],
+        default=3,
+    )
     return tel[["X", "Y", "Distance", "Speed", "Sector"]]
