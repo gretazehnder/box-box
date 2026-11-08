@@ -228,3 +228,6 @@ f1env/
 
 # OS
 .DS_Store
+
+#images
+*.png
