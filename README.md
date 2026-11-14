@@ -11,9 +11,15 @@ How are Formula 1 races won (and lost)? This project analyses lap-by-lap race da
 | Part | What it does |
 |---|---|
 | `notebooks/01_data_exploration.ipynb` | Explores the data available through FastF1: schedule, sessions, laps, results and telemetry |
-| `notebooks/02_race_analysis.ipynb` | Case study of the 2024 Italian Grand Prix (Monza): pace, tyres, pit stops, positions and telemetry |
+| `notebooks/02_race_analysis.ipynb` * | Case study of the 2024 Italian Grand Prix (Monza): pace, tyres, pit stops, positions and telemetry |
 | `src/f1analysis/` | Reusable analysis code shared by the notebooks and the app |
 | `app/` | Streamlit app to explore any race from 2018 onwards |
+
+<br>
+
+[![Open the analysis notebook in nbviewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.org/github/gretazehnder/box-box/blob/main/notebooks/02_race_analysis.ipynb)
+
+*The notebook charts are interactive (Plotly) and are not displayed on GitHub. Open the race analysis notebook in **nbviewer** (badge above) to see them.
 
 ## Key findings (Monza 2024)
 
