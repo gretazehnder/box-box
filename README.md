@@ -2,7 +2,8 @@
 
 How are Formula 1 races won (and lost)? This project analyses lap-by-lap race data (pace, tyre strategy and degradation, pit stops, positions and telemetry) and presents it in an interactive Streamlit app.
 
-![Overview page](image-1.png)
+<img width="2560" height="1242" alt="image" src="https://github.com/user-attachments/assets/d15b204b-d0a2-44e6-9ad9-82dfb28aa3fd" />
+
 
 
 ## Contents
@@ -35,13 +36,18 @@ The app has five pages. They share a sidebar where the season and the Grand Prix
 The lap times, gap and positions charts show a coloured strip above the plot for safety car, virtual safety car and red flag periods.
 
 <details>
-<summary><b>Screenshots of the other pages</b></summary>
+<summary><b>Other pages</b></summary>
 
-| **Race pace** | **Tyre strategy** |
-|---|---|
-| ![Race pace](image-7.png) | ![Tyre strategy](image-8.png) |
-| **Pit stops** | **Positions** |
-| ![Pit stops](image-9.png) | ![Positions](image-10.png) |
+| Screenshots of main plots from the other pages|
+|---|
+| **Race pace** |
+| <img width="1460" height="450" alt="image" src="https://github.com/user-attachments/assets/963ee03c-0d40-4303-8da9-f2ed55eef25e" /> |
+| **Tyre strategy** |
+| <img width="1460" height="600" alt="image" src="https://github.com/user-attachments/assets/b0752206-f96e-4adc-bbf4-8e54371cb4cd" /> |
+| **Pit stops** |
+| <img width="1460" height="450" alt="image" src="https://github.com/user-attachments/assets/76f5c8fe-6fc7-4b2c-9f19-1c02527b5d00" /> |
+| **Positions** | 
+| <img width="1460" height="600" alt="image" src="https://github.com/user-attachments/assets/6f3567ba-d3c8-497c-af9e-47dec342f335" /> |
 
 </details>
 
