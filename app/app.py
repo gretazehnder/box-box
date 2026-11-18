@@ -4,7 +4,7 @@ import streamlit as st
 
 from f1analysis.data import FIRST_YEAR, available_events, load_session
 
-st.set_page_config(page_title="Box Box", page_icon="🏁", layout="wide")
+st.set_page_config(page_title="Box, Box!", page_icon="🏁", layout="wide")
 
 
 @st.cache_resource(show_spinner="Loading race data (the first time can take a minute)...")
@@ -12,7 +12,7 @@ def get_race(year: int, round_number: int):
     return load_session(year, round_number, telemetry=True)
 
 # Race selection (sidebar, shared by all pages)
-st.sidebar.title("🏁 Box Box")
+st.sidebar.title("Box, Box!")
 
 years = list(range(datetime.date.today().year, FIRST_YEAR - 1, -1))
 year = st.sidebar.selectbox("Season", years, index=years.index(2024))

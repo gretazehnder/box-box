@@ -1,4 +1,4 @@
-# Box, Box
+# Box, Box!
 
 How are Formula 1 races won (and lost)? This project analyses lap-by-lap race data (pace, tyre strategy and degradation, pit stops, positions and telemetry) and presents it in an interactive Streamlit app.
 
