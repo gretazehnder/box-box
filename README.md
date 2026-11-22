@@ -42,18 +42,20 @@ The app has five pages. They share a sidebar where the season and the Grand Prix
 The lap times, gap and positions charts show a coloured strip above the plot for safety car, virtual safety car and red flag periods.
 
 <details>
-<summary><b>Other pages</b></summary>
+<summary><b>Screenshots of the other pages</b></summary>
 
-| Screenshots of main plots from the other pages|
+| Race pace |
 |---|
-| **Race pace** |
-| <img width="1460" height="450" alt="image" src="https://github.com/user-attachments/assets/963ee03c-0d40-4303-8da9-f2ed55eef25e" /> |
+| ![Pace relative to the field](docs/screenshots/2a_race_pace_relative.png) |
+| ![Lap times](docs/screenshots/2b_race_pace_lap_times.png) |
 | **Tyre strategy** |
-| <img width="1460" height="600" alt="image" src="https://github.com/user-attachments/assets/b0752206-f96e-4adc-bbf4-8e54371cb4cd" /> |
+| ![Strategies](docs/screenshots/3a_tyre_strategy_strategies.png) |
+| ![Degradation](docs/screenshots/3b_tyre_strategy_degradation.png) |
 | **Pit stops** |
-| <img width="1460" height="450" alt="image" src="https://github.com/user-attachments/assets/76f5c8fe-6fc7-4b2c-9f19-1c02527b5d00" /> |
-| **Positions** | 
-| <img width="1460" height="600" alt="image" src="https://github.com/user-attachments/assets/6f3567ba-d3c8-497c-af9e-47dec342f335" /> |
+| ![Time lost in the pits](docs/screenshots/4a_pitstops_time_lost.png) |
+| ![Gap between two drivers](docs/screenshots/4b_pitstops_gaps.png) |
+| **Positions** |
+| ![Positions](docs/screenshots/5_positions.png) |
 
 </details>
 
