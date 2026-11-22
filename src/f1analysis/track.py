@@ -17,4 +17,4 @@ def lap_layout(lap) -> pd.DataFrame:
         [1, 2],
         default=3,
     )
-    return tel[["X", "Y", "Distance", "Speed", "Sector"]]
+    return tel[["X", "Y", "Distance", "Speed", "Sector"]].copy()
