@@ -26,8 +26,9 @@ st.plotly_chart(pace_chart(pace, team_colors(results), MIN_CLEAN_LAPS), width="s
 
 # Lap times 
 st.subheader("Lap times")
-st.caption("Clean laps only: gaps in the lines correspond to pit stops and excluded laps. "
-           "Shaded areas mark safety car, virtual safety car and red flag periods.")   
+st.caption("Clean laps only: pit stops and excluded laps are skipped, so the line joins "
+           "the laps on either side. Shaded areas mark safety car, virtual safety car "
+           "and red flag periods.")
 
 finishing_order = results["Abbreviation"].tolist()
 selected = st.multiselect("Drivers", finishing_order, default=finishing_order[:2])
