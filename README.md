@@ -2,8 +2,7 @@
 
 How are Formula 1 races won (and lost)? This project analyses lap-by-lap race data (pace, tyre strategy and degradation, pit stops, positions and telemetry) and presents it in an interactive Streamlit app.
 
-<img width="2560" height="1242" alt="image" src="https://github.com/user-attachments/assets/d15b204b-d0a2-44e6-9ad9-82dfb28aa3fd" />
-
+![Overview page](docs/screenshots/1_overview.png)
 
 
 ## Contents
@@ -82,7 +81,7 @@ The data is **not included** in this repository, because it belongs to Formula 1
 Developed and tested with Python 3.14.
 
 ```bash
-git clone https://github.com/USERNAME/box-box.git
+git clone https://github.com/gretazehnde/box-box.git
 cd box-box
 python -m venv f1env
 source f1env/bin/activate        # Windows: f1env\Scripts\activate
