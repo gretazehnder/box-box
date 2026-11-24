@@ -81,7 +81,7 @@ The data is **not included** in this repository, because it belongs to Formula 1
 Developed and tested with Python 3.14.
 
 ```bash
-git clone https://github.com/gretazehnde/box-box.git
+git clone https://github.com/gretazehnder/box-box.git
 cd box-box
 python -m venv f1env
 source f1env/bin/activate        # Windows: f1env\Scripts\activate
