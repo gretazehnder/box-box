@@ -25,19 +25,23 @@ def load_session(year: int, gp: str | int, kind: str = "R",
     """Load a session: 'R' race, 'Q' qualifying, 'S' sprint, ...
 
     Telemetry is heavy, so it is only loaded when explicitly requested.
-    Raises RuntimeError if lap data could not be downloaded.
+    Raises RuntimeError if lap data (or telemetry, when requested) could not be loaded.
     """
     enable_cache()
     session = fastf1.get_session(year, gp, kind)
     session.load(laps=True, telemetry=telemetry, weather=True, messages=True)
     try:
         session.laps
+        if telemetry:
+            # car data (speed) and position data (X/Y) are needed for telemetry and track maps
+            session.car_data
+            session.pos_data
     except DataNotLoadedError as error:
         raise RuntimeError(
-            f"Lap data could not be loaded for {session.event['EventName']} {year}. "
-            "The download may have failed: please try again."
+            f"Data for the {session.event['EventName']} {year} could not be loaded."
         ) from error
     return session
+
 
 FIRST_YEAR = 2018  # first season with lap timing and telemetry
 

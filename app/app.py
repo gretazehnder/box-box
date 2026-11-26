@@ -17,7 +17,11 @@ st.sidebar.title("Box, Box!")
 years = list(range(datetime.date.today().year, FIRST_YEAR - 1, -1))
 year = st.sidebar.selectbox("Season", years, index=years.index(2024))
 
-events = available_events(year)
+try:
+    events = available_events(year)
+except Exception:
+    st.sidebar.warning("The calendar for this season could not be loaded.")
+    st.stop()
 if events.empty:
     st.sidebar.warning("No races available yet for this season.")
     st.stop()
@@ -31,11 +35,14 @@ round_number = st.sidebar.selectbox(
 
 try:
     st.session_state["race"] = get_race(year, round_number)
-except RuntimeError as error:
-    st.error(str(error))
+except Exception:
+    # Any failure while loading: data not published yet, no F1 TV login, no connection
+    st.info("Data for this Grand Prix could not be loaded. Recent races may not be "
+            "published yet, and downloading a race requires an F1 TV subscription "
+            "(see the README). Please choose another Grand Prix.")
     st.stop()
 
-# Navigation (top bar) 
+# Navigation (top bar)
 pages = [
     st.Page("pages/overview.py", title="Overview", icon=":material/flag:"),
     st.Page("pages/race_pace.py", title="Race pace", icon=":material/speed:"),
